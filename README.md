@@ -155,6 +155,7 @@ draft: true
 ## 脚本
 
 - 生成 bits 草稿：`npm run new:bit`
+- 生成字体子集：`npm run font:build`（输出 `tools/charset-common.txt` 与 `public/fonts/lxgw-wenkai-lite-*.woff2`）
 
 ## 分支策略
 
@@ -170,11 +171,22 @@ draft: true
 ## 第三方资源 / Credits
 
 本项目包含字体 **LXGW WenKai（霞鹜文楷）**（Lite, Regular），作者 LXGW。
+本项目自托管字体 **Noto Serif SC**（子集化，400/600）。
 
 许可：**SIL Open Font License 1.1**（见 `public/fonts/OFL.txt`）。
 
 使用的字体文件：
-- `public/fonts/LXGWWenKaiLite-Regular.woff2`
+- `public/fonts/lxgw-wenkai-lite-latin.woff2`
+- `public/fonts/lxgw-wenkai-lite-cjk-common.woff2`
+- `public/fonts/lxgw-wenkai-lite-cjk-ext.woff2`
+- `public/fonts/noto-serif-sc-400-latin.woff2`
+- `public/fonts/noto-serif-sc-400-cjk-common.woff2`
+- `public/fonts/noto-serif-sc-400-cjk-ext.woff2`
+- `public/fonts/noto-serif-sc-600-latin.woff2`
+- `public/fonts/noto-serif-sc-600-cjk-common.woff2`
+- `public/fonts/noto-serif-sc-600-cjk-ext.woff2`
+
+源字体（不入库）：`tools/fonts-src/LXGWWenKaiLite-Regular.woff2`、`tools/fonts-src/NotoSerifSC-Regular.ttf`、`tools/fonts-src/NotoSerifSC-SemiBold.ttf`
 
 ## 致谢
 

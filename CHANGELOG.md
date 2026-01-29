@@ -19,6 +19,7 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 - 移动端侧栏图标组收紧间距并右对齐（避免顶部遮挡）
 - 首页 Hero 图改为本地 `astro:assets` 图片输出，新增多格式（AVIF/WebP）与更精确 sizes；LCP 优先级由 `isLCP` 控制
 - LXGW WenKai Lite 字体改为三段子集（latin/common/ext）并使用 unicode-range 按需加载，移除大字体 preload；新增字体构建脚本与可提交子集文件
+- Noto Serif SC 改为自托管并子集化（400/600），移除 Google Fonts 依赖
 ### Fixed
 - 桌面端导航链接点击区域由整行收敛到文本范围
 
