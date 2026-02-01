@@ -28,18 +28,25 @@ const essay = defineCollection({
 
 const bits = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/bits' }),
-  schema: z.object({
-    // Bits can be untitled.
-    title: z.string().optional(),
-    description: z.string().optional(),
-    date: z.coerce.date(),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-    slug: z.string().optional(),
+  schema: z
+    .object({
+      // Bits can be untitled.
+      title: z.string().optional(),
+      description: z.string().optional(),
+      date: z.coerce.date(),
+      tags: z.array(z.string()).default([]),
+      draft: z.boolean().default(false),
+      slug: z.string().optional(),
 
-    // Optional media for card display.
-    image: z.string().optional()
-  })
+      // Optional media for card display.
+      image: z.string().optional(),
+      imageWidth: z.number().int().positive().optional(),
+      imageHeight: z.number().int().positive().optional()
+    })
+    .refine((data) => !data.image || (data.imageWidth && data.imageHeight), {
+      message: 'imageWidth/imageHeight required when image is set',
+      path: ['imageWidth']
+    })
 });
 
 const memo = defineCollection({

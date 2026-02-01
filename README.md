@@ -120,8 +120,11 @@ badge: optional     # 列表徽标；未填时列表显示“随笔”
 絮语（bits）：
 ```yaml
 date: 2026-01-01T12:00:00+08:00
-draft: true
 tags: []            # 可选标签（默认空数组，可省略）
+image: bits/sky.svg # 可选：图片路径（支持相对路径 bits/... 或绝对 URL https://...）
+imageWidth: 800
+imageHeight: 800
+# draft: true  # 可选：默认 false；true 时仅开发环境可见（草稿）
 ```
 
 

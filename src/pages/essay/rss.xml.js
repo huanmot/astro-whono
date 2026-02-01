@@ -2,6 +2,14 @@ import rss from '@astrojs/rss';
 import { getPublished, isReservedSlug } from '../../lib/content';
 import { site } from '../../../site.config.mjs';
 
+const base = import.meta.env.BASE_URL ?? '/';
+const baseNormalized = base.endsWith('/') ? base : `${base}/`;
+const withBase = (path) => {
+  if (!path || path === '/') return baseNormalized;
+  const clean = path.startsWith('/') ? path.slice(1) : path;
+  return `${baseNormalized}${clean}`;
+};
+
 export async function GET(context) {
   const essays = await getPublished('essay', {
     includeDraft: false,
@@ -17,7 +25,7 @@ export async function GET(context) {
       title: entry.data.title,
       pubDate: entry.data.date,
       description: entry.data.description,
-      link: `/archive/${entry.data.slug ?? entry.id}/`
+      link: withBase(`/archive/${entry.data.slug ?? entry.id}/`)
     }))
   });
 }

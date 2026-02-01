@@ -5,6 +5,14 @@ import { getPublished, isReservedSlug } from '../../lib/content';
 import { getListExcerpt } from '../../utils/excerpt';
 import { PAGE_SIZE_ESSAY } from '../../../site.config.mjs';
 
+const base = import.meta.env.BASE_URL ?? '/';
+const baseNormalized = base.endsWith('/') ? base : `${base}/`;
+const withBase = (path) => {
+  if (!path || path === '/') return baseNormalized;
+  const clean = path.startsWith('/') ? path.slice(1) : path;
+  return `${baseNormalized}${clean}`;
+};
+
 const essays = await getPublished('essay', {
   orderBy: (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 });
@@ -15,19 +23,19 @@ const currentPage = 1;
 const pageEssays = visibleEssays.slice(0, PAGE_SIZE_ESSAY);
 const showPagination = totalPages > 1;
 const prevHref = null;
-const nextHref = currentPage < totalPages ? `/essay/page/${currentPage + 1}/` : null;
+const nextHref = currentPage < totalPages ? withBase(`/essay/page/${currentPage + 1}/`) : null;
 ---
 
 <BaseLayout title="随笔" bodyClass="essay-page">
   <div class="page-header page-header--essay">
     <h1 class="page-title">随笔</h1>
-    <span class="page-subtitle">随笔与杂记，共 {visibleEssays.length} 篇 · <a href="/essay/rss.xml">RSS</a></span>
+    <span class="page-subtitle">随笔与杂记，共 {visibleEssays.length} 篇 · <a href={withBase('/essay/rss.xml')}>RSS</a></span>
   </div>
 
   <div class="list">
     {pageEssays.map((e) => (
       <EssayCard
-        href={`/archive/${e.data.slug ?? e.id}/`}
+        href={withBase(`/archive/${e.data.slug ?? e.id}/`)}
         title={e.data.title}
         excerpt={getListExcerpt(e)}
         date={e.data.date}

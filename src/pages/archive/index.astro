@@ -4,6 +4,14 @@ import { getPublished, isReservedSlug } from '../../lib/content';
 import { groupByYear, formatMonthDay, formatISODate } from '../../utils/format';
 import { PAGE_SIZE_ARCHIVE } from '../../../site.config.mjs';
 
+const base = import.meta.env.BASE_URL ?? '/';
+const baseNormalized = base.endsWith('/') ? base : `${base}/`;
+const withBase = (path) => {
+  if (!path || path === '/') return baseNormalized;
+  const clean = path.startsWith('/') ? path.slice(1) : path;
+  return `${baseNormalized}${clean}`;
+};
+
 const essays = await getPublished('essay', {
   orderBy: (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 });
@@ -21,13 +29,13 @@ const groups = groupByYear(pageItems, (item) => item.entry.data.date);
 
 const showPagination = totalPages > 1;
 const prevHref = null;
-const nextHref = currentPage < totalPages ? `/archive/page/${currentPage + 1}/` : null;
+const nextHref = currentPage < totalPages ? withBase(`/archive/page/${currentPage + 1}/`) : null;
 ---
 
 <BaseLayout title="归档">
   <div class="page-header">
     <h1 class="page-title">归档</h1>
-    <span class="page-subtitle">共 {archiveItems.length} 篇内容 · <a href="/archive/rss.xml">RSS</a></span>
+    <span class="page-subtitle">共 {archiveItems.length} 篇内容 · <a href={withBase('/archive/rss.xml')}>RSS</a></span>
   </div>
 
   {groups.map((g) => (
@@ -36,7 +44,7 @@ const nextHref = currentPage < totalPages ? `/archive/page/${currentPage + 1}/` 
       <div class="archive-list">
         {g.list.map(({ entry }) => {
           const slug = entry.data.slug ?? entry.id;
-          const href = `/archive/${slug}/`;
+          const href = withBase(`/archive/${slug}/`);
           const tag = entry.data.tags?.[0];
           return (
           <div class="archive-row">

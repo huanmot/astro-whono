@@ -2,6 +2,14 @@ const input = document.getElementById('bits-search') as HTMLInputElement | null;
 const btn = document.getElementById('bits-search-btn') as HTMLButtonElement | null;
 const statusEl = document.getElementById('bits-search-status') as HTMLDivElement | null;
 
+const base = import.meta.env.BASE_URL ?? '/';
+const withBase = (path: string) => {
+  const baseNormalized = base.endsWith('/') ? base : `${base}/`;
+  const clean = path.startsWith('/') ? path.slice(1) : path;
+  return `${baseNormalized}${clean}`;
+};
+const indexUrl = withBase('bits/index.json');
+
 const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-bit]')).map((el) => ({
   el,
   slug: (el.getAttribute('data-slug') || '').trim()
@@ -57,7 +65,7 @@ const loadIndex = async () => {
   if (indexFailed) return null;
   if (!indexPromise) {
     setStatus('正在加载索引...');
-    indexPromise = fetch('/bits/index.json')
+    indexPromise = fetch(indexUrl)
       .then((r) => {
         if (!r.ok) throw new Error('index fetch failed');
         return r.json();
