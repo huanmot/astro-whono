@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BitCard from '../../components/BitCard.astro';
+import BitsDraftDialog from '../../components/BitsDraftDialog.astro';
 import { render } from 'astro:content';
 import { getPublished } from '../../lib/content';
 
@@ -29,7 +30,15 @@ const rendered = await Promise.all(
         <input id="bits-search" type="search" placeholder="搜索：关键词 / 标签" autocomplete="off" />
         <button class="bits-search-btn" id="bits-search-btn" type="button">搜索</button>
       </div>
-      <button class="new" id="bits-new-btn" type="button" data-new-bit aria-label="碎碎念">
+      <button
+        class="new"
+        id="bits-new-btn"
+        type="button"
+        data-new-bit
+        aria-label="碎碎念"
+        aria-haspopup="dialog"
+        aria-controls="bits-draft-dialog"
+      >
         <span class="new-icon" aria-hidden="true">✍</span>
         <span class="new-label">碎碎念</span>
       </button>
@@ -43,7 +52,10 @@ const rendered = await Promise.all(
     ))}
   </div>
 
+  <BitsDraftDialog />
+
   <script>
     import '../../scripts/bits-search.ts';
+    import '../../scripts/bits-draft.ts';
   </script>
 </BaseLayout>

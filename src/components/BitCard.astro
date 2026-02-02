@@ -7,7 +7,11 @@ const {
   author = 'Whono'
 } = Astro.props;
 
-const tagsText = (bit.data.tags ?? []).map((t: string) => `#${t}`).join(' ');
+const tags = bit.data.tags ?? [];
+const placeTag = tags.find((t: string) => t.toLowerCase().startsWith('loc:')) ?? '';
+const placeText = placeTag ? placeTag.slice(4).trim() : '';
+const normalTags = tags.filter((t: string) => !t.toLowerCase().startsWith('loc:'));
+const tagsText = normalTags.map((t: string) => `#${t}`).join(' ');
 const base = import.meta.env.BASE_URL ?? '/';
 const withBase = (path: string) => {
   if (!path) return path;
@@ -40,7 +44,15 @@ const imageAttrs =
   ) : null}
 
   <div class="bit-meta">
-    <div class="bit-tags">{tagsText ? <>❤ {tagsText}</> : null}</div>
+    <div class="bit-tags">
+      {placeText ? (
+        <span class="bit-tag bit-tag--place">
+          <span class="bit-tag-icon" aria-hidden="true">📍</span>
+          <span class="bit-tag-text">{placeText}</span>
+        </span>
+      ) : null}
+      {tagsText ? <span class="bit-tag bit-tag--normal">❤ {tagsText}</span> : null}
+    </div>
     <div>{formatDateTime(bit.data.date)}</div>
   </div>
 </article>
