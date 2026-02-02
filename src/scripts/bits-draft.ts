@@ -22,11 +22,10 @@ const linkBtn = toolbar?.querySelector<HTMLButtonElement>('[data-action="link"]'
 const contentEl = dialog?.querySelector<HTMLTextAreaElement>('#bits-draft-content') ?? null;
 const tagsEl = dialog?.querySelector<HTMLInputElement>('#bits-draft-tags') ?? null;
 const placeEl = dialog?.querySelector<HTMLInputElement>('#bits-draft-place') ?? null;
-const imageEl = dialog?.querySelector<HTMLInputElement>('#bits-draft-image') ?? null;
-const imageWidthEl = dialog?.querySelector<HTMLInputElement>('#bits-draft-image-width') ?? null;
-const imageHeightEl = dialog?.querySelector<HTMLInputElement>('#bits-draft-image-height') ?? null;
+const imagesWrap = dialog?.querySelector<HTMLElement>('[data-bits-images]') ?? null;
+const imageAddBtn = dialog?.querySelector<HTMLButtonElement>('[data-bits-image-add]') ?? null;
+const imageTemplate = dialog?.querySelector<HTMLTemplateElement>('[data-bits-image-template]') ?? null;
 const draftEl = dialog?.querySelector<HTMLInputElement>('#bits-draft-draft') ?? null;
-const imageDims = dialog?.querySelectorAll<HTMLElement>('[data-bits-image-dimensions]') ?? [];
 
 const pad2 = (value: number) => String(value).padStart(2, '0');
 const base = import.meta.env.BASE_URL ?? '/';
@@ -264,6 +263,20 @@ const normalizeTagInput = (value: string) => {
   return value.replace(/，/g, ',').replace(/\s{2,}/g, ' ');
 };
 
+let isComposingTags = false;
+const normalizeTagsField = () => {
+  if (!tagsEl) return;
+  const before = tagsEl.value;
+  const normalized = normalizeTagInput(before);
+  if (normalized === before) return;
+  const start = tagsEl.selectionStart ?? normalized.length;
+  const end = tagsEl.selectionEnd ?? normalized.length;
+  const beforeStart = normalizeTagInput(before.slice(0, start));
+  const beforeEnd = normalizeTagInput(before.slice(0, end));
+  tagsEl.value = normalized;
+  tagsEl.setSelectionRange(beforeStart.length, beforeEnd.length);
+};
+
 const formatTag = (value: string) => {
   const needsQuotes = /[:#\n\r\t]|^\s|\s$|^-/.test(value);
   if (!needsQuotes) return value;
@@ -274,7 +287,11 @@ const normalizeImage = (value: string) => {
   const trimmed = value.trim();
   if (!trimmed) return '';
   if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return trimmed.replace(/^\/+/, '');
+  let normalized = trimmed.replace(/\\/g, '/');
+  normalized = normalized.replace(/^\/+/, '');
+  normalized = normalized.replace(/^public\//i, '');
+  normalized = normalized.replace(/\.webp\.webp$/i, '.webp');
+  return normalized;
 };
 
 const resolveImageUrl = (value: string) => {
@@ -286,56 +303,127 @@ const resolveImageUrl = (value: string) => {
   return withBase(trimmed.replace(/^\/+/, ''));
 };
 
-const setImageFieldsActive = (active: boolean) => {
-  imageDims.forEach((el) => {
-    el.hidden = !active;
-  });
-  if (imageWidthEl) imageWidthEl.disabled = !active;
-  if (imageHeightEl) imageHeightEl.disabled = !active;
-  if (!active) {
-    if (imageWidthEl) imageWidthEl.value = '';
-    if (imageHeightEl) imageHeightEl.value = '';
+const imageRowState = new WeakMap<HTMLElement, { lastValue: string; requestId: number }>();
+const initializedImageRows = new WeakSet<HTMLElement>();
+
+const getImageRows = () => Array.from(
+  imagesWrap?.querySelectorAll<HTMLElement>('[data-bits-image-row]') ?? []
+);
+
+const getImageRowElements = (row: HTMLElement) => {
+  const srcEl = row.querySelector<HTMLInputElement>('[data-bits-image-src]');
+  const widthEl = row.querySelector<HTMLInputElement>('[data-bits-image-width]');
+  const heightEl = row.querySelector<HTMLInputElement>('[data-bits-image-height]');
+  const removeBtn = row.querySelector<HTMLButtonElement>('[data-bits-image-remove]');
+  if (!srcEl || !widthEl || !heightEl || !removeBtn) return null;
+  return { srcEl, widthEl, heightEl, removeBtn };
+};
+
+const getImageRowState = (row: HTMLElement) => {
+  const existing = imageRowState.get(row);
+  if (existing) return existing;
+  const next = { lastValue: '', requestId: 0 };
+  imageRowState.set(row, next);
+  return next;
+};
+
+const syncImageRow = (row: HTMLElement) => {
+  const els = getImageRowElements(row);
+  if (!els) return;
+  const hasImage = !!els.srcEl.value.trim();
+  row.classList.toggle('has-dims', hasImage);
+  els.widthEl.disabled = !hasImage;
+  els.heightEl.disabled = !hasImage;
+  if (!hasImage) {
+    els.widthEl.value = '';
+    els.heightEl.value = '';
   }
 };
 
-const syncImageFields = () => {
-  const hasImage = !!imageEl?.value.trim();
-  setImageFieldsActive(hasImage);
+const syncImageRows = () => {
+  getImageRows().forEach((row) => syncImageRow(row));
 };
 
-let lastImageValue = '';
-let imageRequestId = 0;
-const fillImageDimensions = () => {
-  if (!imageEl) return;
-  const raw = imageEl.value.trim();
+const fillImageRowDimensions = (row: HTMLElement) => {
+  const els = getImageRowElements(row);
+  if (!els) return;
+  const raw = els.srcEl.value.trim();
+  const state = getImageRowState(row);
   if (!raw) {
-    lastImageValue = '';
+    state.lastValue = '';
     return;
   }
-  if (raw === lastImageValue) return;
-  lastImageValue = raw;
+  if (raw === state.lastValue) return;
+  state.lastValue = raw;
   const resolved = resolveImageUrl(raw);
   if (!resolved) return;
-  const requestId = ++imageRequestId;
+  const requestId = ++state.requestId;
   const img = new Image();
   img.decoding = 'async';
   img.onload = () => {
-    if (requestId !== imageRequestId) return;
+    if (requestId !== state.requestId) return;
     const width = img.naturalWidth;
     const height = img.naturalHeight;
     if (!width || !height) {
       setStatus('无法自动读取，请手动填写。');
       return;
     }
-    if (imageWidthEl) imageWidthEl.value = String(width);
-    if (imageHeightEl) imageHeightEl.value = String(height);
+    els.widthEl.value = String(width);
+    els.heightEl.value = String(height);
     setStatus(`已自动读取：${width}×${height}`);
   };
   img.onerror = () => {
-    if (requestId !== imageRequestId) return;
+    if (requestId !== state.requestId) return;
     setStatus('无法自动读取，请手动填写。');
   };
   img.src = resolved;
+};
+
+const removeImageRow = (row: HTMLElement) => {
+  const rows = getImageRows();
+  const els = getImageRowElements(row);
+  if (!els) return;
+  if (rows.length <= 1) {
+    els.srcEl.value = '';
+    els.widthEl.value = '';
+    els.heightEl.value = '';
+    syncImageRow(row);
+    els.srcEl.focus();
+    return;
+  }
+  row.remove();
+};
+
+const initImageRow = (row: HTMLElement) => {
+  if (initializedImageRows.has(row)) return;
+  const els = getImageRowElements(row);
+  if (!els) return;
+  initializedImageRows.add(row);
+  els.srcEl.addEventListener('input', () => {
+    syncImageRow(row);
+  });
+  els.srcEl.addEventListener('change', () => {
+    syncImageRow(row);
+    fillImageRowDimensions(row);
+  });
+  els.removeBtn.addEventListener('click', () => {
+    removeImageRow(row);
+  });
+  syncImageRow(row);
+};
+
+const initImageRows = () => {
+  getImageRows().forEach((row) => initImageRow(row));
+};
+
+const addImageRow = () => {
+  if (!imagesWrap || !imageTemplate) return;
+  const templateRow = imageTemplate.content.firstElementChild as HTMLElement | null;
+  if (!templateRow) return;
+  const row = templateRow.cloneNode(true) as HTMLElement;
+  imagesWrap.appendChild(row);
+  initImageRow(row);
+  row.querySelector<HTMLInputElement>('[data-bits-image-src]')?.focus();
 };
 
 const tryClipboardCopy = async (text: string) => {
@@ -347,6 +435,39 @@ const tryClipboardCopy = async (text: string) => {
   }
 };
 
+const collectImages = () => {
+  const rows = getImageRows();
+  const images: Array<{ src: string; width: number; height: number }> = [];
+  for (const row of rows) {
+    const els = getImageRowElements(row);
+    if (!els) continue;
+    const srcValue = normalizeImage(els.srcEl.value ?? '');
+    if (!srcValue) continue;
+    const widthValue = els.widthEl.value.trim();
+    const heightValue = els.heightEl.value.trim();
+    if (!widthValue || !heightValue) {
+      setStatus('图片已填写，请补全宽高。', 'error');
+      if (!widthValue) els.widthEl.focus();
+      else els.heightEl.focus();
+      return null;
+    }
+    const widthNumber = Number(widthValue);
+    const heightNumber = Number(heightValue);
+    if (!Number.isFinite(widthNumber) || widthNumber <= 0) {
+      setStatus('图片宽度需为正数。', 'error');
+      els.widthEl.focus();
+      return null;
+    }
+    if (!Number.isFinite(heightNumber) || heightNumber <= 0) {
+      setStatus('图片高度需为正数。', 'error');
+      els.heightEl.focus();
+      return null;
+    }
+    images.push({ src: srcValue, width: widthNumber, height: heightNumber });
+  }
+  return images;
+};
+
 const buildMarkdown = () => {
   if (!contentEl) return null;
   const content = contentEl.value.trim();
@@ -356,32 +477,8 @@ const buildMarkdown = () => {
     return null;
   }
 
-  const imageValue = normalizeImage(imageEl?.value ?? '');
-  const widthValue = imageWidthEl?.value.trim() ?? '';
-  const heightValue = imageHeightEl?.value.trim() ?? '';
-
-  let widthNumber: number | null = null;
-  let heightNumber: number | null = null;
-  if (imageValue) {
-    if (!widthValue || !heightValue) {
-      setStatus('图片已填写，请补全宽高。', 'error');
-      if (!widthValue) imageWidthEl?.focus();
-      else imageHeightEl?.focus();
-      return null;
-    }
-    widthNumber = Number(widthValue);
-    heightNumber = Number(heightValue);
-    if (!Number.isFinite(widthNumber) || widthNumber <= 0) {
-      setStatus('图片宽度需为正数。', 'error');
-      imageWidthEl?.focus();
-      return null;
-    }
-    if (!Number.isFinite(heightNumber) || heightNumber <= 0) {
-      setStatus('图片高度需为正数。', 'error');
-      imageHeightEl?.focus();
-      return null;
-    }
-  }
+  const images = collectImages();
+  if (!images) return null;
 
   let tags = parseTags(tagsEl?.value ?? '');
   const rawPlace = (placeEl?.value ?? '').trim();
@@ -403,10 +500,13 @@ const buildMarkdown = () => {
     lines.push('draft: true');
   }
 
-  if (imageValue) {
-    lines.push(`image: ${imageValue}`);
-    lines.push(`imageWidth: ${widthNumber}`);
-    lines.push(`imageHeight: ${heightNumber}`);
+  if (images.length) {
+    lines.push('images:');
+    images.forEach((image) => {
+      lines.push(`  - src: ${image.src}`);
+      lines.push(`    width: ${image.width}`);
+      lines.push(`    height: ${image.height}`);
+    });
   }
 
   lines.push('---', '', content);
@@ -419,7 +519,7 @@ const openDialog = () => {
   clearStatus();
   hideManualCopy();
   updateManualLink();
-  syncImageFields();
+  syncImageRows();
   updateToolbarActive();
   dialog.showModal();
   window.setTimeout(() => {
@@ -459,12 +559,9 @@ if (openBtn && dialog) {
   });
 }
 
-imageEl?.addEventListener('input', () => {
-  syncImageFields();
-});
-imageEl?.addEventListener('change', () => {
-  syncImageFields();
-  fillImageDimensions();
+initImageRows();
+imageAddBtn?.addEventListener('click', () => {
+  addImageRow();
 });
 
 form?.addEventListener('input', () => {
@@ -507,17 +604,16 @@ contentEl?.addEventListener('keydown', (event) => {
   }
 });
 
+tagsEl?.addEventListener('compositionstart', () => {
+  isComposingTags = true;
+});
+tagsEl?.addEventListener('compositionend', () => {
+  isComposingTags = false;
+  normalizeTagsField();
+});
 tagsEl?.addEventListener('input', () => {
-  if (!tagsEl) return;
-  const before = tagsEl.value;
-  const normalized = normalizeTagInput(before);
-  if (normalized === before) return;
-  const start = tagsEl.selectionStart ?? normalized.length;
-  const end = tagsEl.selectionEnd ?? normalized.length;
-  const beforeStart = normalizeTagInput(before.slice(0, start));
-  const beforeEnd = normalizeTagInput(before.slice(0, end));
-  tagsEl.value = normalized;
-  tagsEl.setSelectionRange(beforeStart.length, beforeEnd.length);
+  if (isComposingTags) return;
+  normalizeTagsField();
 });
 
 form?.addEventListener('submit', (event) => {
@@ -584,7 +680,7 @@ toolbar?.addEventListener('click', (event) => {
         wrapSelection('[', '](url)', 'text');
         break;
       case 'paragraph':
-        insertText('\n\n');
+        insertText('\n');
         break;
       default:
         break;

@@ -29,7 +29,14 @@ The format is based on Keep a Changelog, and this project aims to follow Semanti
 - /bits 搜索补充可访问 label
 - 全局链接补充 `:focus-visible` 样式
 - 内部链接改为 base-aware，适配子路径部署
-- bits 图片支持 `imageWidth` / `imageHeight`（用于降低 CLS）
+- bits 图片字段改为 `images` 数组（多图 + 宽高，用于降低 CLS）
+- bits 草稿交互窗口图片改为多行录入，支持自动读取单图宽高
+- 移除 bits 旧字段 `image` / `imageWidth` / `imageHeight`（Breaking）
+- bits 多图卡片改为统一缩略比例（4/3），奇数张首图横幅（21/9），网格间距 12px
+- 多图网格仅在 2–4 且奇数张时启用首图全宽
+- 草稿工具栏“段落/换行”改为单行换行
+- 标签输入在输入法组合阶段不强制标准化，避免中文输入被打断
+- 草稿图片路径标准化：去 `public/`、统一 `/`、修复 `.webp.webp`
 - 首页 Hero 图改为本地 `astro:assets` 图片输出，新增多格式（AVIF/WebP）与更精确 sizes；LCP 优先级由 `isLCP` 控制
 - LXGW WenKai Lite 字体改为三段子集（latin/common/ext）并使用 unicode-range 按需加载，移除大字体 preload；新增字体构建脚本与可提交子集文件
 - Noto Serif SC 改为自托管并子集化（400/600），移除 Google Fonts 依赖

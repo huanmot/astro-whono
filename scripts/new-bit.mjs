@@ -44,7 +44,7 @@ if (fs.existsSync(filepath)) {
 
 const date = formatLocalISO(now);
 
-const template = `---\ndraft: true\ndate: ${date}\ntags: []\n---\n\n`;
+const template = `---\ndraft: true\ndate: ${date}\ntags: []\nimages: []\n---\n\n`;
 fs.writeFileSync(filepath, template, 'utf8');
 
 console.log(`Created: ${filepath}`);

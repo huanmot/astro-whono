@@ -20,11 +20,15 @@ const withBase = (path: string) => {
   const clean = path.startsWith('/') ? path.slice(1) : path;
   return `${baseNormalized}${clean}`;
 };
-const imageSrc = bit.data.image ? withBase(bit.data.image) : null;
-const imageAttrs =
-  bit.data.imageWidth && bit.data.imageHeight
-    ? { width: bit.data.imageWidth, height: bit.data.imageHeight }
-    : {};
+type BitImage = { src: string; width: number; height: number; alt?: string };
+const images = (bit.data.images ?? []) as BitImage[];
+const imageItems = images.map((image) => ({
+  ...image,
+  src: withBase(image.src)
+}));
+const firstImage = imageItems.length === 1 ? imageItems[0] : null;
+const totalImages = imageItems.length;
+const wideIndex = totalImages > 1 && totalImages <= 4 && totalImages % 2 === 1 ? 0 : -1;
 ---
 
 <article class="bit-card" data-bit data-slug={bit.data.slug ?? bit.id}>
@@ -37,9 +41,34 @@ const imageAttrs =
     <Content />
   </div>
 
-  {imageSrc ? (
+  {firstImage ? (
     <div class="bit-media">
-      <img src={imageSrc} alt="" loading="lazy" {...imageAttrs} />
+      <img
+        src={firstImage.src}
+        alt={firstImage.alt ?? ''}
+        width={firstImage.width}
+        height={firstImage.height}
+        loading="lazy"
+      />
+    </div>
+  ) : imageItems.length > 1 ? (
+    <div class="bit-media bit-media--grid">
+      <div class="bit-media-grid">
+        {imageItems.slice(0, 4).map((image, index) => (
+          <div class={`bit-media-item${index === wideIndex ? ' bit-media-item--wide' : ''}`}>
+            <img
+              src={image.src}
+              alt={image.alt ?? ''}
+              width={image.width}
+              height={image.height}
+              loading="lazy"
+            />
+            {index === 3 && imageItems.length > 4 ? (
+              <span class="bit-media-more">+{imageItems.length - 4}</span>
+            ) : null}
+          </div>
+        ))}
+      </div>
     </div>
   ) : null}
 
