@@ -197,7 +197,10 @@
 
 .page-header.page-header--about .page-actions {
   align-self: flex-end;
-  margin-right: 18px;
+  margin-left: 6px;
+  margin-right: 0;
+  gap: 6px;
+  transform: translateY(2px);
 }
 
 .page-header.page-header--about .icon-link .icon {
@@ -414,8 +417,17 @@
     align-self: flex-start;
   }
 
+  .page-header.page-header--about {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+
   .page-header.page-header--about .page-actions {
+    margin-left: 6px;
     margin-right: 0;
+    align-self: flex-end;
   }
 
   .page-header.page-header--essay {
