@@ -16,9 +16,9 @@ const displayBadge = badge?.trim() ? badge : '随笔';
 
 <a class="list-item list-item--link" href={href} data-entry-item data-slug={slug || undefined}>
   <div class="list-item__row">
-    <div style="display:flex; align-items:center; gap:10px;">
+    <div class="list-item__heading">
       <span class="badge">{displayBadge}</span>
-      <h3 class="list-item__title" style="margin:0;">{title}</h3>
+      <h3 class="list-item__title">{title}</h3>
     </div>
   </div>
   {excerpt ? <p class="list-item__excerpt">{excerpt}</p> : null}

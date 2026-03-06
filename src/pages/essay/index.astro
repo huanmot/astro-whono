@@ -20,8 +20,15 @@ const nextHref = currentPage < totalPages ? withBase(`/essay/page/${currentPage 
 <BaseLayout title="随笔" bodyClass="essay-page">
   <div class="page-header page-header--essay page-header--with-search">
     <div class="page-heading">
-      <h1 class="page-title">随笔</h1>
-      <span class="page-subtitle">随笔与杂记，共 {visibleEssays.length} 篇 · <a href={withBase('/essay/rss.xml')}>RSS</a></span>
+      <nav class="page-breadcrumb" aria-label="面包屑导航">
+        <a href={withBase('/')}>首页</a>
+        <span class="page-breadcrumb__sep" aria-hidden="true">/</span>
+        <span aria-current="page">随笔</span>
+      </nav>
+      <div class="page-heading__main">
+        <h1 class="page-title">随笔</h1>
+        <span class="page-subtitle">随笔与杂记，共 {visibleEssays.length} 篇 · <a href={withBase('/essay/rss.xml')}>RSS</a></span>
+      </div>
     </div>
     <div class="page-actions">
       <div class="entry-search" data-entry-search data-index-url={withBase('/essay/index.json')}>

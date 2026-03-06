@@ -191,7 +191,7 @@
   overflow: hidden;
   border: 1px solid var(--media-frame-border);
   background: var(--media-frame-bg);
-  box-shadow: var(--media-frame-shadow);
+  box-shadow: 0 0 0 1px var(--media-frame-highlight), var(--media-frame-shadow);
   max-width: 320px;
 }
 
@@ -222,7 +222,7 @@
   aspect-ratio: 4 / 3;
   border: 1px solid var(--media-frame-border);
   background: var(--media-frame-bg);
-  box-shadow: 0 10px 22px rgba(41, 37, 36, 0.07);
+  box-shadow: 0 0 0 1px var(--media-frame-highlight), 0 12px 26px rgba(41, 37, 36, 0.09);
   padding: 0;
   width: 100%;
   display: block;

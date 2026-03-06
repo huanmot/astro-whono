@@ -21,8 +21,10 @@ const nextHref = currentPage < totalPages ? withBase(`/archive/page/${currentPag
 <BaseLayout title="归档">
   <div class="page-header page-header--with-search">
     <div class="page-heading">
-      <h1 class="page-title">归档</h1>
-      <span class="page-subtitle">共 {archiveItems.length} 篇内容 · <a href={withBase('/archive/rss.xml')}>RSS</a></span>
+      <div class="page-heading__main">
+        <h1 class="page-title">归档</h1>
+        <span class="page-subtitle">共 {archiveItems.length} 篇内容 · <a href={withBase('/archive/rss.xml')}>RSS</a></span>
+      </div>
     </div>
     <div class="page-actions">
       <div

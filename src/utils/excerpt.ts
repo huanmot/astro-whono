@@ -1,4 +1,6 @@
 const MORE_REGEX = /<!--\s*more\s*-->/i;
+const CALLOUT_OPEN_REGEX = /^\s*:::[a-z-]+(?:\[[^\]]*\])?\s*$/gim;
+const CALLOUT_CLOSE_REGEX = /^\s*:::\s*$/gim;
 
 export function splitMore(md: string): string {
   if (!md) return '';
@@ -14,6 +16,8 @@ export function cleanMarkdownToText(md: string): string {
 
   text = text.replace(/```[\s\S]*?```/g, ' ');
   text = text.replace(/~~~[\s\S]*?~~~/g, ' ');
+  text = text.replace(CALLOUT_OPEN_REGEX, ' ');
+  text = text.replace(CALLOUT_CLOSE_REGEX, ' ');
   text = text.replace(/!\[[^\]]*]\([^)]+\)/g, ' ');
   text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
   text = text.replace(/`[^`]*`/g, ' ');

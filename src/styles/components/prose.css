@@ -12,14 +12,15 @@
   display: block;
   margin: 0 auto;
   box-sizing: border-box;
+  padding: 8px;
   border: 1px solid var(--media-frame-border);
   background: var(--media-frame-bg);
-  box-shadow: var(--media-frame-shadow);
+  box-shadow: 0 0 0 1px var(--media-frame-highlight), var(--media-frame-shadow);
 }
 
 .article-page .prose img {
-  max-width: min(94%, 1040px);
-  border-radius: 18px;
+  max-width: min(96%, 1140px);
+  border-radius: 20px;
 }
 
 @media (max-width: 900px) {

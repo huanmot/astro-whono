@@ -22,7 +22,7 @@
 
 .article-page .prose figure > :is(img, picture),
 .article-page .prose figure > picture > img {
-  max-width: min(94%, 1040px);
+  max-width: min(96%, 1140px);
   border-radius: 18px;
 }
 
