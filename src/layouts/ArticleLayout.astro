@@ -9,16 +9,56 @@ const {
   entry,
   Content,
   typeLabel,
+  headings = [],
   prev,
   next
 } = Astro.props;
 
+type TocHeading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
+
 const tags = entry?.data?.tags ?? [];
-const firstTag = tags[0];
 const defaultImage = '/og.svg';
 const coverImage = entry?.data?.cover ?? null;
 const ogImage = coverImage ?? defaultImage;
 const description = getMetaDescription(entry);
+const articleLead = entry?.data?.description ?? description;
+
+const tocItems = (headings as TocHeading[])
+  .filter((heading: TocHeading) => heading.depth === 2 || heading.depth === 3)
+  .map((heading: TocHeading) => ({
+    depth: heading.depth,
+    slug: heading.slug,
+    text: heading.text
+  }));
+
+const readableSource = entry.body
+  .replace(/```[\s\S]*?```/g, ' ')
+  .replace(/`[^`]*`/g, ' ')
+  .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+  .replace(/\[[^\]]+\]\([^)]*\)/g, ' ')
+  .replace(/<[^>]+>/g, ' ')
+  .replace(/[#>*_~-]/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
+
+const cjkCount = Array.from(readableSource.matchAll(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/gu)).length;
+const latinWordCount = readableSource
+  .replace(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/gu, ' ')
+  .split(/\s+/)
+  .filter(Boolean)
+  .length;
+const readTimeMinutes = Math.max(1, Math.ceil((cjkCount + latinWordCount) / 320));
+
+const articleFacts = [
+  { label: '发布', value: formatISODate(entry.data.date) },
+  { label: '阅读', value: `约 ${readTimeMinutes} 分钟` },
+  ...(typeLabel ? [{ label: '栏目', value: typeLabel }] : []),
+  ...(tocItems.length ? [{ label: '目录', value: `${tocItems.length} 节` }] : [])
+];
 
 ---
 
@@ -48,12 +88,43 @@ const description = getMetaDescription(entry);
     >
       <Icon name="reader-exit" class="icon" />
     </button>
-    <div class="meta-line">
+    <div class="meta-line meta-line--article">
       发布于：{formatISODate(entry.data.date)}
+      <> · 约 {readTimeMinutes} 分钟阅读</>
       {typeLabel ? <> · <span class="tag">{typeLabel}</span></> : null}
-      {firstTag ? <> · <span class="tag">#{firstTag}</span></> : null}
     </div>
+    {articleLead ? <p class="article-dek">{articleLead}</p> : null}
+    <div class="article-facts" aria-label="文章信息">
+      {articleFacts.map((item) => (
+        <div class="article-facts__item">
+          <span class="article-facts__label">{item.label}</span>
+          <strong class="article-facts__value">{item.value}</strong>
+        </div>
+      ))}
+    </div>
+    {tags.length ? (
+      <div class="article-tags" aria-label="文章标签">
+        {tags.map((tag: string) => (
+          <span class="article-tag">#{tag}</span>
+        ))}
+      </div>
+    ) : null}
   </div>
+
+  {tocItems.length ? (
+    <nav class="article-toc" aria-label="目录">
+      <details open data-article-toc>
+        <summary>目录</summary>
+        <ol class="article-toc__list">
+          {tocItems.map((item: TocHeading) => (
+            <li class={`article-toc__item article-toc__item--depth-${item.depth}`}>
+              <a href={`#${item.slug}`}>{item.text}</a>
+            </li>
+          ))}
+        </ol>
+      </details>
+    </nav>
+  ) : null}
 
   <div class="prose">
     <Content />
@@ -101,5 +172,23 @@ const description = getMetaDescription(entry);
       enablePan: false,
       enableSwipeDownClose: false
     });
+  </script>
+  <script is:inline>
+    (() => {
+      const toc = document.querySelector('[data-article-toc]');
+      if (!toc) return;
+
+      const mq = window.matchMedia('(max-width: 640px)');
+      const sync = () => {
+        if (mq.matches) {
+          toc.removeAttribute('open');
+        } else {
+          toc.setAttribute('open', '');
+        }
+      };
+
+      sync();
+      mq.addEventListener('change', sync);
+    })();
   </script>
 </BaseLayout>

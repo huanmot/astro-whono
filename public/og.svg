@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="ogTitle ogDesc">
+  <title id="ogTitle">冰糖葫芦</title>
+  <desc id="ogDesc">冰糖葫芦博客的默认分享封面，暖白底色，右侧是一串糖葫芦，左侧只保留一句简短直接的站点介绍。</desc>
+  <defs>
+    <linearGradient id="bg" x1="130" y1="60" x2="1100" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff8f0"/>
+      <stop offset="0.55" stop-color="#fff2e7"/>
+      <stop offset="1" stop-color="#fbe6d8"/>
+    </linearGradient>
+    <radialGradient id="glowWarm" cx="0" cy="0" r="1" gradientTransform="translate(300 180) rotate(16) scale(360 240)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fffef9"/>
+      <stop offset="1" stop-color="#fffef9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowRed" cx="0" cy="0" r="1" gradientTransform="translate(960 380) rotate(-18) scale(300 220)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3b29a" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#f3b29a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="card" x1="170" y1="130" x2="560" y2="490" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fffaf5"/>
+      <stop offset="1" stop-color="#fff3e8"/>
+    </linearGradient>
+    <linearGradient id="berryTop" x1="815" y1="110" x2="990" y2="280" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffb59e"/>
+      <stop offset="0.48" stop-color="#d54b34"/>
+      <stop offset="1" stop-color="#8d1f16"/>
+    </linearGradient>
+    <linearGradient id="berryMid" x1="725" y1="230" x2="930" y2="410" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffb89f"/>
+      <stop offset="0.48" stop-color="#de573d"/>
+      <stop offset="1" stop-color="#972217"/>
+    </linearGradient>
+    <linearGradient id="berryLow" x1="625" y1="360" x2="850" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffbda5"/>
+      <stop offset="0.48" stop-color="#e46549"/>
+      <stop offset="1" stop-color="#a0291d"/>
+    </linearGradient>
+    <filter id="berryShadow" x="0" y="0" width="1200" height="630" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#7f2115" flood-opacity="0.16"/>
+    </filter>
+    <filter id="softBlur" x="0" y="0" width="1200" height="630" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="62" y="58" width="1076" height="514" rx="42" fill="#ffffff" fill-opacity="0.28"/>
+  <circle cx="1008" cy="132" r="86" fill="#ffffff" fill-opacity="0.42" filter="url(#softBlur)"/>
+  <ellipse cx="948" cy="476" rx="230" ry="112" fill="#f0b9a4" fill-opacity="0.18" filter="url(#softBlur)"/>
+  <rect width="1200" height="630" fill="url(#glowWarm)"/>
+  <rect width="1200" height="630" fill="url(#glowRed)"/>
+
+  <g opacity="0.74">
+    <circle cx="166" cy="108" r="5" fill="#d9c9bb"/>
+    <circle cx="206" cy="108" r="5" fill="#d9c9bb"/>
+    <circle cx="246" cy="108" r="5" fill="#d9c9bb"/>
+  </g>
+
+  <rect x="124" y="138" width="452" height="354" rx="30" fill="url(#card)" stroke="#ecd8c8" stroke-width="2"/>
+  <text x="174" y="232" fill="#332722" font-size="76" font-weight="700" letter-spacing="1" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',serif">冰糖葫芦</text>
+  <text x="178" y="322" fill="#5f4b44" font-size="28" textLength="380" lengthAdjust="spacingAndGlyphs" font-family="'LXGW WenKai Lite','KaiTi','STKaiti',serif">Wonderful, Entertaining, and Distinctive</text>
+
+  <g>
+    <rect x="176" y="430" width="124" height="44" rx="22" fill="#fff7f0" stroke="#e8d4c4"/>
+    <text x="208" y="459" fill="#b33a2d" font-size="22" font-family="'LXGW WenKai Lite','KaiTi','STKaiti',serif">随笔</text>
+    <rect x="316" y="430" width="124" height="44" rx="22" fill="#fff7f0" stroke="#e8d4c4"/>
+    <text x="348" y="459" fill="#b33a2d" font-size="22" font-family="'LXGW WenKai Lite','KaiTi','STKaiti',serif">絮语</text>
+    <rect x="456" y="430" width="124" height="44" rx="22" fill="#fff7f0" stroke="#e8d4c4"/>
+    <text x="488" y="459" fill="#b33a2d" font-size="22" font-family="'LXGW WenKai Lite','KaiTi','STKaiti',serif">小记</text>
+  </g>
+
+  <text x="176" y="534" fill="#af9689" font-size="22" letter-spacing="4" font-family="'LXGW WenKai Lite','KaiTi','STKaiti',serif">WWW.BTHL.SPACE</text>
+
+  <g filter="url(#berryShadow)">
+    <path d="M700 525 966 118" fill="none" stroke="#765440" stroke-width="18" stroke-linecap="round"/>
+    <circle cx="924" cy="180" r="68" fill="url(#berryTop)"/>
+    <circle cx="834" cy="312" r="86" fill="url(#berryMid)"/>
+    <circle cx="730" cy="456" r="102" fill="url(#berryLow)"/>
+  </g>
+
+  <ellipse cx="887" cy="141" rx="22" ry="16" fill="#fff7f1" fill-opacity="0.75" transform="rotate(-18 887 141)"/>
+  <ellipse cx="790" cy="260" rx="28" ry="20" fill="#fff6ef" fill-opacity="0.7" transform="rotate(-18 790 260)"/>
+  <ellipse cx="671" cy="390" rx="32" ry="24" fill="#fff2e8" fill-opacity="0.66" transform="rotate(-18 671 390)"/>
+  <path d="M824 523c32 0 63-15 84-39" fill="none" stroke="#fff0e4" stroke-width="10" stroke-linecap="round" opacity="0.34"/>
+
+  <g fill="#f1b457">
+    <path d="M1022 112l12 28 28 12-28 12-12 28-12-28-28-12 28-12z"/>
+    <path d="M1002 242l7 16 16 7-16 7-7 16-7-16-16-7 16-7z" opacity="0.84"/>
+    <path d="M620 126l8 18 18 8-18 8-8 18-8-18-18-8 18-8z" opacity="0.72"/>
+  </g>
+
+  <path d="M630 582h398" stroke="#e9d8ca" stroke-width="3" stroke-linecap="round"/>
+</svg>

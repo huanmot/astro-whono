@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { createWithBase } from '../utils/format';
+import { site } from '../../site.config.mjs';
 
 const { siteTitle = 'Whono' } = Astro.props;
 
@@ -17,11 +18,14 @@ const nav = [
   { label: '关于', href: withBase('/about/') }
 ];
 
-const quote = 'A minimal Astro theme\nfor essays, notes, and docs.\nDesigned for reading,\nopen-source.';
+const quote = site.sidebarQuote ?? site.description;
 ---
 
 <aside class="sidebar">
-  <a class="sidebar__title" href={homeHref} aria-label={`${siteTitle} 首页`}>{siteTitle}</a>
+  <a class="sidebar__title" href={homeHref} aria-label={`${siteTitle} 首页`}>
+    <img class="sidebar__logo" src={withBase('logo.svg')} alt="" width="34" height="34" loading="eager" decoding="async" />
+    <span>{siteTitle}</span>
+  </a>
 
   <div class="sidebar__quote">
     {quote.split('\n').map((line) => (

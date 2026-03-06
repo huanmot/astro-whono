@@ -2,14 +2,15 @@
 .prose .callout {
   --callout-accent: var(--muted);
   --callout-line: var(--border);
+  --callout-bg: var(--code-content-bg);
 
   position: relative;
-  padding: 4px 0 4px var(--quote-pad);
-  margin: 1rem 0;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
+  padding: 14px 16px 14px calc(var(--quote-pad) + 10px);
+  margin: 1.2rem 0;
+  background: var(--callout-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
   font-family: "LXGW WenKai Lite","Kaiti SC","STKaiti",serif;
 }
 
@@ -17,12 +18,12 @@
 .prose .callout::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 6px;
-  bottom: 6px;
+  left: 12px;
+  top: 12px;
+  bottom: 12px;
   width: 3px;
-  border-radius: 2px;
-  background: var(--callout-line);
+  border-radius: 999px;
+  background: var(--callout-accent);
 }
 
 .prose .callout > :last-child {
@@ -64,22 +65,42 @@
 
 .prose .callout.note {
   --callout-accent: var(--muted);
+  --callout-bg: var(--code-content-bg);
   --callout-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0%200%2024%2024' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12%2020h9'/><path d='M16.5%203.5a2.1%202.1%200%200%201%203%203L7%2019l-4%201%201-4%2012.5-12.5z'/></svg>");
 }
 
 .prose .callout.tip {
   --callout-accent: #7a9b87;
+  --callout-bg: rgba(122, 155, 135, 0.11);
   --callout-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0%200%2024%2024' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M15%2014c.2-1%20.7-1.7%201.5-2.5%201-.9%201.5-2.2%201.5-3.5A6%206%200%200%200%206%208c0%201%20.2%202.2%201.5%203.5.7.7%201.3%201.5%201.5%202.5'/><path d='M9%2018h6'/><path d='M10%2022h4'/></svg>");
 }
 
 .prose .callout.info {
   --callout-accent: var(--faint);
+  --callout-bg: rgba(120, 113, 108, 0.09);
   --callout-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0%200%2024%2024' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='9'/><path d='M12%2010v6'/><path d='M12%207h.01'/></svg>");
 }
 
 .prose .callout.warning {
   --callout-accent: var(--accent);
+  --callout-bg: rgba(185, 28, 28, 0.08);
   --callout-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0%200%2024%2024' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10.3%203.9l-8.4%2014.5a1.6%201.6%200%200%200%201.4%202.4h16.4a1.6%201.6%200%200%200%201.4-2.4L13.7%203.9a1.6%201.6%200%200%200-3.4%200z'/><path d='M12%209v5'/><path d='M12%2016h.01'/></svg>");
+}
+
+:root[data-theme="dark"] .prose .callout.note {
+  --callout-bg: rgba(255, 255, 255, 0.03);
+}
+
+:root[data-theme="dark"] .prose .callout.tip {
+  --callout-bg: rgba(122, 155, 135, 0.16);
+}
+
+:root[data-theme="dark"] .prose .callout.info {
+  --callout-bg: rgba(163, 163, 163, 0.09);
+}
+
+:root[data-theme="dark"] .prose .callout.warning {
+  --callout-bg: rgba(248, 113, 113, 0.12);
 }
 
 @supports ((-webkit-mask-image: url("")) or (mask-image: url(""))) {

@@ -14,7 +14,7 @@ const {
 } = Astro.props;
 
 const siteTitle = site.title;
-const brandTitle = site.brandTitle ?? siteTitle;
+const brandTitle = site.brandTitle || siteTitle;
 const metaDescription = description ?? site.description;
 const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 const canonical = (hasSiteUrl && Astro.site)

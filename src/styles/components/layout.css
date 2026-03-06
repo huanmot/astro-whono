@@ -9,7 +9,7 @@
   min-height: 100vh;
   display: grid;
   grid-template-columns: var(--sidebar) 1px 1fr;
-  max-width: 1100px;
+  max-width: 1320px;
   margin: 0 auto;
 }
 
@@ -33,10 +33,21 @@
 }
 
 .sidebar__title {
-  font-family: Georgia, serif;
+  font-family: "Noto Serif SC", ui-serif, Georgia, "Times New Roman", "Songti SC", serif;
   font-size: 28px;
   letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
   transition: transform 0.2s ease;
+}
+
+.sidebar__logo {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: block;
 }
 
 .sidebar__title:hover {
@@ -47,9 +58,10 @@
 .sidebar__quote {
   max-width: 220px;
   text-align: right;
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-size: 16px;
+  font-family: "LXGW WenKai Lite", "Kaiti SC", "STKaiti", serif;
+  font-style: normal;
+  font-size: 15px;
+  line-height: 1.85;
   color: var(--muted);
 }
 
@@ -140,6 +152,151 @@
 .page-title {
   font-size: 26px;
   margin: 0;
+}
+
+.article-page .page-title {
+  font-size: clamp(30px, 4vw, 40px);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+.article-header {
+  margin-bottom: 16px;
+}
+
+.meta-line--article {
+  margin-bottom: 0;
+}
+
+.article-dek {
+  margin: 14px 0 0;
+  max-width: 42rem;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+  font-family: "LXGW WenKai Lite", "Kaiti SC", "STKaiti", serif;
+}
+
+.article-facts {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.article-facts__item {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+}
+
+.article-facts__label {
+  display: block;
+  color: var(--faint);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.article-facts__value {
+  display: block;
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.article-tags {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.article-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--code-content-bg);
+  color: var(--accent);
+  font-size: 12px;
+  font-family: "LXGW WenKai Lite", "Kaiti SC", "STKaiti", serif;
+}
+
+.article-toc {
+  margin: 22px 0 30px;
+}
+
+.article-toc details {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+}
+
+.article-toc summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: "LXGW WenKai Lite", "Kaiti SC", "STKaiti", serif;
+}
+
+.article-toc summary::-webkit-details-marker {
+  display: none;
+}
+
+.article-toc summary::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: 0.75;
+}
+
+.article-toc summary::after {
+  content: "▶";
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--muted);
+  transition: transform 0.2s ease;
+}
+
+.article-toc details[open] summary::after {
+  transform: rotate(90deg);
+}
+
+.article-toc__list {
+  margin: 0;
+  padding: 0 18px 16px 34px;
+  display: grid;
+  gap: 10px;
+}
+
+.article-toc__item {
+  color: var(--muted);
+}
+
+.article-toc__item--depth-3 {
+  padding-left: 14px;
+  font-size: 14px;
+}
+
+.article-toc a {
+  color: inherit;
+  border-bottom: 0;
+}
+
+.article-toc a:hover {
+  color: var(--text);
+  border-bottom: 0;
 }
 
 .page-header {
@@ -338,6 +495,7 @@
     order: 1;
     flex: 1 1 auto;
     font-size: 24px;
+    justify-content: flex-start;
   }
 
   .sidebar__quote {
@@ -437,6 +595,10 @@
   .page-header.page-header--bits {
     margin-bottom: 12px;
   }
+
+  .article-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 641px) and (max-width: 900px) {
@@ -473,8 +635,24 @@
     font-size: 24px;
   }
 
+  .article-page .page-title {
+    font-size: 30px;
+  }
+
   .page-subtitle {
     font-size: 12px;
+  }
+
+  .article-dek {
+    font-size: 15px;
+  }
+
+  .article-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .article-toc__list {
+    padding: 0 14px 14px 28px;
   }
 
   .content {

@@ -13,14 +13,27 @@
   margin: 0 auto;
 }
 
+.article-page .prose img {
+  max-width: min(92%, 920px);
+  border-radius: 14px;
+}
+
 @media (max-width: 900px) {
   .prose img {
     max-width: 92%;
+  }
+
+  .article-page .prose img {
+    max-width: 96%;
   }
 }
 
 @media (max-width: 640px) {
   .prose img {
+    max-width: 100%;
+  }
+
+  .article-page .prose img {
     max-width: 100%;
   }
 }

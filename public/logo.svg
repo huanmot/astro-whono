@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">冰糖葫芦</title>
+  <desc id="logoDesc">一串三颗糖葫芦组成的站点标志</desc>
+  <defs>
+    <linearGradient id="logoBg" x1="18" y1="14" x2="110" y2="114" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff7ef"/>
+      <stop offset="1" stop-color="#fff1e2"/>
+    </linearGradient>
+    <linearGradient id="berryTop" x1="68" y1="14" x2="96" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffb39c"/>
+      <stop offset="0.48" stop-color="#d64a34"/>
+      <stop offset="1" stop-color="#8f1f16"/>
+    </linearGradient>
+    <linearGradient id="berryMid" x1="58" y1="34" x2="88" y2="70" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffb59d"/>
+      <stop offset="0.45" stop-color="#db4f37"/>
+      <stop offset="1" stop-color="#971f16"/>
+    </linearGradient>
+    <linearGradient id="berryLow" x1="44" y1="58" x2="76" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffbba2"/>
+      <stop offset="0.45" stop-color="#df573c"/>
+      <stop offset="1" stop-color="#9e261a"/>
+    </linearGradient>
+    <filter id="logoShadow" x="0" y="0" width="128" height="128" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#7d1d12" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#logoBg)"/>
+  <path d="M34 108 80 20" fill="none" stroke="#6f4d39" stroke-width="6" stroke-linecap="round"/>
+  <g filter="url(#logoShadow)">
+    <circle cx="79" cy="30" r="16" fill="url(#berryTop)"/>
+    <circle cx="66" cy="54" r="18" fill="url(#berryMid)"/>
+    <circle cx="52" cy="81" r="19" fill="url(#berryLow)"/>
+  </g>
+  <ellipse cx="73" cy="24" rx="5.2" ry="3.8" fill="#fff7f1" opacity="0.72" transform="rotate(-18 73 24)"/>
+  <ellipse cx="59" cy="47" rx="5.8" ry="4.2" fill="#fff5ed" opacity="0.68" transform="rotate(-20 59 47)"/>
+  <ellipse cx="45" cy="74" rx="6.2" ry="4.5" fill="#fff3ea" opacity="0.64" transform="rotate(-20 45 74)"/>
+  <path d="M50 102c6 0 11-3 14-8" fill="none" stroke="#fff2e8" stroke-width="2.4" stroke-linecap="round" opacity="0.42"/>
+  <path d="M96 13l2.4 5.6 5.6 2.4-5.6 2.4-2.4 5.6-2.4-5.6-5.6-2.4 5.6-2.4z" fill="#f4b65c"/>
+</svg>

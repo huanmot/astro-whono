@@ -12,10 +12,11 @@ if (!hasSiteUrl && process.env.NODE_ENV === 'production') {
 export const site = {
   url: hasSiteUrl ? siteUrl : fallbackSiteUrl,
   title: '冰糖葫芦',
-  brandTitle: '',
+  brandTitle: '冰糖葫芦',
   author: '冰糖葫芦',
   authorAvatar: 'author/avatar.webp',
-  description: '又香又甜的冰糖葫芦'
+  description: 'Wonderful, Entertaining, and Distinctive',
+  sidebarQuote: 'Wonderful, Entertaining, and Distinctive'
 };
 
 export const PAGE_SIZE_ARCHIVE = 12;
