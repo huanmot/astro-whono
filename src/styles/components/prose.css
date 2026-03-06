@@ -11,11 +11,15 @@
   height: auto;
   display: block;
   margin: 0 auto;
+  box-sizing: border-box;
+  border: 1px solid var(--media-frame-border);
+  background: var(--media-frame-bg);
+  box-shadow: var(--media-frame-shadow);
 }
 
 .article-page .prose img {
-  max-width: min(92%, 920px);
-  border-radius: 14px;
+  max-width: min(94%, 1040px);
+  border-radius: 18px;
 }
 
 @media (max-width: 900px) {
@@ -24,7 +28,7 @@
   }
 
   .article-page .prose img {
-    max-width: 96%;
+    max-width: 98%;
   }
 }
 

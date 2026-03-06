@@ -187,9 +187,11 @@
 
 .bit-media {
   margin: 12px 0;
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
-  border: 0;
+  border: 1px solid var(--media-frame-border);
+  background: var(--media-frame-bg);
+  box-shadow: var(--media-frame-shadow);
   max-width: 320px;
 }
 
@@ -215,11 +217,12 @@
 
 .bit-media-item {
   position: relative;
-  border-radius: 8px;
+  border-radius: 14px;
   overflow: hidden;
   aspect-ratio: 4 / 3;
-  border: 0;
-  background: transparent;
+  border: 1px solid var(--media-frame-border);
+  background: var(--media-frame-bg);
+  box-shadow: 0 10px 22px rgba(41, 37, 36, 0.07);
   padding: 0;
   width: 100%;
   display: block;

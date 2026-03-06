@@ -22,8 +22,8 @@
 
 .article-page .prose figure > :is(img, picture),
 .article-page .prose figure > picture > img {
-  max-width: min(92%, 920px);
-  border-radius: 14px;
+  max-width: min(94%, 1040px);
+  border-radius: 18px;
 }
 
 @media (max-width: 900px) {
@@ -37,7 +37,7 @@
 
   .article-page .prose figure > :is(img, picture),
   .article-page .prose figure > picture > img {
-    max-width: 96%;
+    max-width: 98%;
   }
 }
 

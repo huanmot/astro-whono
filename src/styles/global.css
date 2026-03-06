@@ -121,11 +121,14 @@
   --code-bg: var(--code-content-bg);
   --code-action-hover-bg: #e8e8e6;
   --panel: var(--code-header-bg);
+  --media-frame-bg: #fffaf6;
+  --media-frame-border: #e8ddd3;
+  --media-frame-shadow: 0 14px 32px rgba(41, 37, 36, 0.08);
   --font-mono: "Sarasa Mono SC", "Noto Sans Mono CJK SC", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --max: 980px;
-  --sidebar: 300px;
+  --max: 1120px;
+  --sidebar: 280px;
   --tap-min-h: 44px;
-  --pad-x: 48px;
+  --pad-x: 56px;
   --card-pad: 12px 14px;
   --quote-pad: 1rem;
   --header-gap: 12px;
@@ -145,6 +148,9 @@
   --code-text: #e1e1e1;
   --code-bg: var(--code-content-bg);
   --code-action-hover-bg: #3a3a3a;
+  --media-frame-bg: #232220;
+  --media-frame-border: #3a3632;
+  --media-frame-shadow: 0 18px 36px rgba(0, 0, 0, 0.34);
   --lightbox-text: #ffffff;
   --lightbox-border: rgba(255, 255, 255, 0.2);
   --lightbox-dot-muted: rgba(255, 255, 255, 0.35);
@@ -265,9 +271,11 @@ hr {
 ================================ */
 .hero {
   width: 100%;
-  border-radius: 6px;
+  border-radius: 18px;
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 1px solid var(--media-frame-border);
+  background: var(--media-frame-bg);
+  box-shadow: var(--media-frame-shadow);
 }
 
 .hero img {
