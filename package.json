@@ -5,12 +5,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cxro/astro-whono.git"
+    "url": "https://github.com/huanmot/astro-whono.git"
   },
   "bugs": {
-    "url": "https://github.com/cxro/astro-whono/issues"
+    "url": "https://github.com/huanmot/astro-whono/issues"
   },
-  "homepage": "https://astro.whono.me",
+  "homepage": "https://www.bthl.space",
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
